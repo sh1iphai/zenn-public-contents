@@ -3,7 +3,7 @@ title: "【React 18】Concurrent features概要"
 emoji: "🌟"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["react", "nextjs", "typescript"]
-published: false
+published: true
 ---
 
 ## Concurrent featuresとは
