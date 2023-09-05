@@ -8,7 +8,7 @@ published: false
 
 ## Concurrent featuresとは
 
-Concurrent featuresとは「画面上にUIを表示させつつ、裏でレンダリングの準備を行う」といった並行処理を実現できるようにしたReactの新しいメカニズムです。
+Concurrent featuresとは「画面上にUIを表示させつつ、裏でレンダリングの準備をする」といった並行処理を実現できるようにしたReactの新しいメカニズムです。
 Reactの公式ドキュメントではConcurrent featuresを搭載したReactのことをConcurrent Reactと呼んでいます。[^1]
 
 [^1]: [What is Concurrent React? ](https://react.dev/blog/2022/03/29/react-v18#what-is-concurrent-react)
@@ -16,13 +16,13 @@ Reactの公式ドキュメントではConcurrent featuresを搭載したReactの
 Concurrent featuresの最大の特性はレンダリングを中断できるということです。
 
 従来のReactではレンダリングが行われた場合はレンダリングが完了するまで新しい画面や次の操作を行えず、待ち時間が発生していました。
-一方、Concurrent featuresではレンダリングを中断できるため、従来発生していた待ち時間を削減することができ、ユーザーエクスペリエンスの向上が期待できます。
+一方、Concurrent featuresではレンダリングを中断できるため、従来発生していた待ち時間を削減でき、ユーザーエクスペリエンスの向上が期待できます。
 
-Concurrent featuresは従来のReactのコンセプトを変える仕組みとなっているため、Concurrent featuresがReact 18における最大のアップデートいっても過言ではありません。
+Concurrent featuresは従来のReactのコンセプトを変えるしくみとなっているため、Concurrent featuresがReact 18における最大のアップデートいっても過言ではありません。
 
 ## React 18とConcurrent featuresについて
 
-React 18で導入された機能の一覧は以下の通りです。
+React 18で導入された機能の一覧は以下の通りです。[^new-features]
 
 - Automatic Batching
 - SuspenseのSSR対応
@@ -41,17 +41,19 @@ React 18で導入された機能の一覧は以下の通りです。
   - useSyncExternalStore
   - useInsertionEffect
 
+[^new-features]: [What’s New in React 18](https://react.dev/blog/2022/03/29/react-v18#whats-new-in-react-18  )
+
 上記のうち、Concurrent featuresと密接に関わりのある機能は「SuspenseのSSR対応」「Transitions」「useTransition」「useDeferredValue」です。
 
 以下では、それぞれの機能の概要について紹介します。
 
 ## SuspenseのSSR対応
 
-Suspense自体はReact 16.6で導入されていましたが[^react16-6]、React.lazyと組み合わせたコード分割が主な利用方法でした。
+Suspense自体はReact 16.6で導入されていましたが[^react16-6]、[React.lazy](https://react.dev/reference/react/lazy)と組み合わせたコード分割が主な利用方法でした。
 
 [^react16-6]: [React v16.6.0: lazy, memo and contextType](https://ja.legacy.reactjs.org/blog/2018/10/23/react-v-16-6.html)
 
-React 18からはSuspenseがサーバー上で利用できるようになりました。
+React 18からはSuspenseがサーバ上で利用できるようになりました。
 
 SuspenseのSSR対応について話をする前に、まずはSuspenseとSSRについてそれぞれおさらいをします。
 
@@ -79,9 +81,9 @@ Suspenseの活用パターンとしては主に、コード分割と呼ばれる
 
 コード分割とは、画面の初期表示に不要なファイルを遅延読み込みすることで、初期ロードの時間を減らし画面の表示速度を向上させるものです。
 
-コード分割はReact.lazyとSuspenseを組み合わせることで実現できます。
+コード分割は`React.lazy`とSuspenseを組み合わせることで実現できます。
 
-React.lazyを利用してimportされたコンポーネントは遅延読み込みされ、コンポーネントの読み込み中はSuspenseで定義したフォールバックが表示されます。
+`React.lazy`を利用してimportされたコンポーネントは遅延読み込みされ、コンポーネントの読み込み中はSuspenseで定義したフォールバックが表示されます。
 
 具体的なコードはたとえば以下のようになります。
 
@@ -150,12 +152,12 @@ Promiseの処理が終わり、Promiseの状態が完了、つまりfulfilledも
 
 ![](/images/overview-concurrent-react/suspense-5.png)
 
-レンダリングがうまくいったらフォールバックの代わりにコンポーネントに表示を切り替えます。
+レンダリングがうまくいったらフォールバックからコンポーネントへ表示を切り替えます。
 
 ![](/images/overview-concurrent-react/suspense-6.png)
 
 ### 復習: SSRとは
-SSRとはサーバー側でHTMLを生成し、その結果をクライアントに送信する仕組みのことをいいます。
+SSRとはサーバ側でHTMLを生成し、その結果をクライアントに送信するしくみのことをいいます。
 
 SSRの大まかな流れは以下の通りです。
 
@@ -166,11 +168,11 @@ SSRの大まかな流れは以下の通りです。
 
 図で表現すると以下のようになります。
 
-まず、サーバーにリクエストが届くとSSRに必要なデータの取得を行います。
+まず、サーバにリクエストが届くとSSRに必要なデータの取得をします。
 
 ![](/images/overview-concurrent-react/ssr-1.png)
 
-必要なデータがそろったら、サーバー側でHTMLを生成し、クライアント側へレスポンスとして返します。
+必要なデータがそろったら、サーバ側でHTMLを生成し、クライアント側へレスポンスとして返します。
 
 ![](/images/overview-concurrent-react/ssr-2.png)
 
@@ -179,7 +181,7 @@ HTMLを受け取ったクライアントは、JavaScriptのロードを実行し
 ![](/images/overview-concurrent-react/ssr-3.png)
 
 HTMLとJavaScriptの準備が整ったら、次にHTMLとJavaScriptのつなぎこみを行います。
-具体的にはHTMLに対してイベントリスナーや状態管理などのJavaScriptの機能を付与します。
+具体的にはHTMLに対してイベントリスナや状態管理などのJavaScriptの機能を付与します。
 なお、この過程のことをハイドレーションと呼びます。
 
 ハイドレーションが完了すると、画面はインタラクティブ、つまり操作可能な状態になります。
@@ -188,10 +190,10 @@ HTMLとJavaScriptの準備が整ったら、次にHTMLとJavaScriptのつなぎ�
 
 
 SSRではクライアント側でHTMLの生成をする必要がなくなるため、初期表示の高速化が期待できます。
-また、クローラーに対してレンダリングしたページを見せられるため、SEO対策として有効です。
+また、クローラに対してレンダリングしたページを見せられるため、SEO対策として有効です。
 
 
-一方で、SSRには全ての準備が整わないと初期表示ができないという問題点があります。
+一方で、SSRにはすべての準備が整わないと初期表示ができないという問題点があります。
 具体的には、データ取得や、JavaScriptのロードやハイドレーションに時間を要するコンポーネントが一部でも存在していれば、それが画面全体の初期表示までにかかる時間に影響を与えてしまいます。
 
 ### Streaming Server Rendering
@@ -212,13 +214,13 @@ SuspenseのSSR対応とは、非同期でSSRが実行できるようなったと
 
 上記の図の意味について補足説明をします。
 
-SSRの場合は全てのコンポーネントに対して同期的に処理を実行します。
+SSRの場合はすべてのコンポーネントに対して同期的に処理を実行します。
 そのため、右下のコンポーネントの処理速度が画面全体に影響を与えてしまいます。
 
 一方Streaming Server Renderingの場合は、非同期で処理を行うため、右下のコンポーネントの処理速度は画面全体に影響を与えません。
 Streaming Server Renderingでは非同期で処理を行えるため、一部のコンポーネントだけ先んじて画面に表示できます。
 
-なお、Streaming Server Renderingによって非同期でサーバーから返されるHTMLはStreming HTMLなどと呼ばれています。[^streaming-html]
+なお、Streaming Server Renderingによって非同期でサーバから返されるHTMLはStreming HTMLなどと呼ばれています。[^streaming-html]
 [^streaming-html]: [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37)
 
 ## Transitions
@@ -227,11 +229,9 @@ TransitionsとはReactのデータ更新に対して「優先度」の観点を�
 
 Transitionsが適用されたデータ更新は優先度が低いものとみなされます。
 そのため、Transitionsを活用することで相対的に優先度の高いデータ更新と優先度の低いデータ更新の2種類を用意できます。
+一方、優先度が低いデータ更新、つまりTransitionsを適用するデータ更新には、更新結果を即時画面に表示する必要がなく遅延をしても問題ないものが分類されます。
 
-優先度の高いデータ更新には、たとえば、クリックや入力といった操作内容を即座に画面に反映させたいユーザーエクスペリエンスに関係するものが分類されます。
-一方、優先度が低いデータ更新、つまりTransitionsを適用するデータ更新には、更新結果を即時画面に表示する必要がなく遅延が許されるものが分類されます。
-
-優先度が低いデータ更新によって発生するレンダリングは、優先度が高いデータ更新が行われることで中断される、という特徴があります。
+優先度の低いデータ更新によって発生するレンダリングは、優先度の高いデータ更新が行われることで中断される、という特徴があります。
 
 補足ですが、Reactの公式ドキュメントではTransitionsのデータ更新を説明する際に「Urgent updates」と「Non-urgent updates（Transition updates）」という言葉を使っています。[^3]
 Urgentは直訳すると「緊急」という意味ですので、「緊急度の高い更新」というような表現を使うほうが適切かもしれませんが、日本語のわかりやすさの観点から、ここでは「優先」という言葉を利用してTransitionsについて説明をしています。
@@ -245,9 +245,9 @@ React 18ではTransitionsを実現するためのHooksが新たに2つ用意さ�
 
 useTransitionとはTransitionsを実現するためのHooksの1つで、ステートの更新に対してTransitionsを適用できます。
 
-useTransitionの戻り値はisPendingというbooleanとstartTransitionという関数の2つです。
-isPendingはTransitionsが保留中かどうかを判定するbooleanです。
-startTransitionは処理に対してTransitionsを適用する関数です。
+useTransitionの戻り値は`isPending`というbooleanと`startTransition`という関数の2つです。
+`isPending`はTransitionsが保留中かどうかを判定するbooleanです。
+`startTransition`は処理に対してTransitionsを適用する関数です。
 
 useTransitionの使い方は以下の通りです。
 
@@ -256,7 +256,7 @@ useTransitionの使い方は以下の通りです。
 
 具体例を紹介します。
 
-例えばボタンのクリックによってステートを更新する処理があったとします。
+たとえばボタンのクリックによってステートを更新する処理があったとします。
 
 ```jsx
 const [count, setCount] = useState(0);
@@ -295,9 +295,9 @@ useDifferedValueの使い方は以下の通りです。
 
 具体例を紹介します。
 
-例えば、以下のようなqueryというローカルステートを持つコンポーネントについて考えてみます。
-このqueryに対してTransitionsを適用したい場合は、useDeferredValueの引数にqueryをセットします。
-そして、useDeferredValueの戻り値を例えばdeferredQueryとした場合、deferredQueryを利用することでコンポーネント内でTransitionsが実現できます。
+たとえば、以下のような`query`というローカルステートを持つコンポーネントについて考えてみます。
+この`query`に対してTransitionsを適用したい場合は、useDeferredValueの引数に`query`をセットします。
+そして、useDeferredValueの戻り値をたとえば`deferredQuery`とした場合、`deferredQuery`を利用することによりコンポーネント内でTransitionsが実現できます。
 
 ```jsx
 import { useState, useDeferredValue } from 'react';
