@@ -41,7 +41,7 @@ React 18で導入された機能の一覧は以下の通りです。[^new-featur
   - useSyncExternalStore
   - useInsertionEffect
 
-[^new-features]: [What’s New in React 18](https://react.dev/blog/2022/03/29/react-v18#whats-new-in-react-18  )
+[^new-features]: [What’s New in React 18](https://react.dev/blog/2022/03/29/react-v18#whats-new-in-react-18)
 
 上記のうち、Concurrent featuresと密接に関わりのある機能は「SuspenseのSSR対応」「Transitions」「useTransition」「useDeferredValue」です。
 
@@ -229,6 +229,8 @@ TransitionsとはReactのデータ更新に対して「優先度」の観点を�
 
 Transitionsが適用されたデータ更新は優先度が低いものとみなされます。
 そのため、Transitionsを活用することで相対的に優先度の高いデータ更新と優先度の低いデータ更新の2種類を用意できます。
+
+優先度の高いデータ更新には、たとえば、クリックや入力といった操作内容を即座に画面へ反映させたいユーザーエクスペリエンスに関係するものが分類されます。
 一方、優先度が低いデータ更新、つまりTransitionsを適用するデータ更新には、更新結果を即時画面に表示する必要がなく遅延をしても問題ないものが分類されます。
 
 優先度の低いデータ更新によって発生するレンダリングは、優先度の高いデータ更新が行われることで中断される、という特徴があります。
