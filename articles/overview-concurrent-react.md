@@ -318,6 +318,6 @@ Concurrent featuresに関する本を執筆しました。
 書籍では、今回紹介できなかったConcurrent featuresに関するサンプルアプリケーションも掲載しています。
 具体的なコードを通じてConcurrent featuresをより理解できるようにしました。
 
-現在、期間限定で無料公開中ですので興味のある方はぜひご覧になってみてください。
+興味のある方はぜひご覧になってみてください。
 
 https://zenn.dev/sh1iphai/books/concurrent-react
